@@ -1,0 +1,181 @@
+/* Sidebar Styling */
+.sidebar {
+  height: 100%;
+  width: 200px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background: linear-gradient(to right, #007bff, #5c9fff);
+  /* Gradasi biru lebih soft */
+  display: flex;
+  flex-direction: column;
+  padding-top: 70px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  /* Bayangan lembut di samping */
+}
+
+.sidebar a {
+  padding: 12px 8px 12px 32px;
+  text-decoration: none;
+  font-size: 16px;
+  color: white;
+  display: block;
+  margin-bottom: 12px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Efek hover untuk link di sidebar */
+.sidebar a:hover {
+  background-color: #f1f1f1;
+  /* Warna latar belakang saat hover */
+  color: #007bff;
+  /* Mengubah warna teks menjadi biru */
+  transform: translateX(10px);
+  /* Efek geser ke kanan */
+}
+
+/* Content Styling */
+.content {
+  margin-left: 200px;
+  padding: 30px;
+  background-color: #f4f7fc;
+  /* Latar belakang konten yang lembut */
+  min-height: 100vh;
+}
+
+/* Card Styles */
+.card-info {
+  margin: 20px 0;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #ffffff;
+  /* Latar belakang putih untuk kartu */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* Bayangan lembut untuk kartu */
+  text-align: center;
+  height: 200px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease,
+    background-color 0.3s ease;
+  border: 1px solid #e3e3e3;
+  /* Border abu-abu lembut */
+}
+
+.card-info h4 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333333;
+  /* Warna teks judul yang gelap */
+}
+
+.card-info .value {
+  font-size: 36px;
+  font-weight: bold;
+  color: #28a745;
+  /* Warna hijau untuk nilai */
+  margin-top: 10px;
+}
+
+.card-info .icon {
+  font-size: 50px;
+  color: #007bff;
+  /* Warna ikon biru */
+}
+
+/* Animasi efek muncul saat hover */
+.card-info:hover {
+  transform: scale(1.05);
+  /* Zoom sedikit saat hover */
+  background-color: #f8f9fa;
+  /* Latar belakang berubah lebih terang */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  /* Efek bayangan lebih besar */
+}
+
+/* Make the whole card clickable */
+.card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* On screens that are less than 700px wide, make the sidebar into a topbar */
+@media screen and (max-width: 700px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+
+  .sidebar a {
+    float: left;
+  }
+
+  div.content {
+    margin-left: 0;
+  }
+}
+
+/* On screens that are less than 400px, display the bar vertically, instead of horizontally */
+/* @media screen and (max-width: 400px) {
+    .sidebar a {
+      text-align: center;
+      float: none;
+    }
+  } */
+.dropdown {
+  position: relative;
+  display: block;
+}
+
+.dropdown-toggle {
+  text-decoration: none;
+  color: white;
+  display: block;
+  margin-bottom: 12px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.dropdown-toggle:hover {
+  background-color: #f1f1f1;
+  color: #007bff;
+  transform: translateX(10px);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #f1f1f1;
+  padding: 12px;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: none;
+}
+
+.dropdown-menu a {
+  text-decoration: none;
+  color: #333333;
+  display: block;
+  margin-bottom: 12px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.dropdown-menu a:hover {
+  background-color: #cccccc;
+  color: #666666;
+  transform: translateX(10px);
+}
+
+.row-search {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.row-search a {
+  margin-left: 10px;
+}
