@@ -131,7 +131,11 @@ if (!isset($_SESSION['id'])  && !isset($_SESSION['account_type'])) {
                 return $data;
             }
 
-            if (isset($_GET['date']) && $_GET['date'] != '') {
+            if (isset($_GET['date']) && $_GET['date'] != '' && isset($_GET['tipe']) && $_GET['tipe'] != '') {
+                $date = validate($_GET['date']);
+                $tipe = validate($_GET['tipe']);
+                $query = $conn->query("SELECT * FROM list_gangguan JOIN device on list_gangguan.id_device = device.id WHERE date(tanggal_gangguan)='$date' AND device.type='$tipe'");
+            } elseif (isset($_GET['date']) && $_GET['date'] != '') {
                 $date = validate($_GET['date']);
                 $query = $conn->query("SELECT * FROM list_gangguan JOIN device on list_gangguan.id_device = device.id WHERE date(tanggal_gangguan)='$date'");
             } elseif (isset($_GET['tipe']) && $_GET['tipe'] != '') {
