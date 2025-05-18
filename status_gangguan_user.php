@@ -24,7 +24,7 @@ if (!isset($_SESSION['id']) || (isset($_SESSION['id']) && $_SESSION['account_typ
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <link rel="icon" type="image/png" href="./image aset/images-removebg-preview.png">
-    <title>User</title>
+    <title>Status Gangguan User</title>
 
     <script>
         $(document).ready(function() {
@@ -48,6 +48,30 @@ if (!isset($_SESSION['id']) || (isset($_SESSION['id']) && $_SESSION['account_typ
         });
     </script>
 
+    <style>
+        @media (max-width: 768px) {
+            th {
+                display: none;
+            }
+
+            td {
+                display: grid;
+            }
+
+            td:first-child {
+                padding-top: 2rem;
+            }
+
+            td:last-child {
+                padding-bottom: 2rem;
+            }
+
+            td::before {
+                content: attr(data-th) ": " attr(data-value);
+                font-weight: 700;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -115,7 +139,7 @@ if (!isset($_SESSION['id']) || (isset($_SESSION['id']) && $_SESSION['account_typ
             <h2 class="page-header">Status Gangguan User</h2>
             <hr>
 
-            <table id="tabelpelanggan" class="table table-bordered table-hover">
+            <table id="tabel" class="table table-bordered table-hover">
                 <thead>
                     <tr>
                         <th style="text-align: center;">No</th>
@@ -129,7 +153,7 @@ if (!isset($_SESSION['id']) || (isset($_SESSION['id']) && $_SESSION['account_typ
                 </thead>
 
                 <?php
-                $query = $conn->query("SELECT * FROM lapor_gangguan where aktif=1");
+                $query = $conn->query("SELECT * FROM lapor_gangguan where aktif=1 order by status desc");
 
                 $nomor = 1;
                 while ($lihat = $query->fetch_assoc()) {
@@ -143,14 +167,14 @@ if (!isset($_SESSION['id']) || (isset($_SESSION['id']) && $_SESSION['account_typ
                 ?>
                     <tbody>
                         <tr>
-                            <td style="text-align: center;"><?php echo $nomor; ?></td>
-                            <td><?php echo htmlspecialchars($nm_device); ?></td>
-                            <td><?php echo htmlspecialchars($ket); ?></td>
-                            <td><?php echo date('d-m-Y H:i:s', strtotime($tggl_gangguan)); ?></td>
+                            <td data-th="No" style="text-align: center;"><?php echo $nomor; ?></td>
+                            <td data-th="Nama Device"><?php echo htmlspecialchars($nm_device); ?></td>
+                            <td data-th="Keterangan"><?php echo htmlspecialchars($ket); ?></td>
+                            <td data-th="Tanggal Gangguan"><?php echo date('d-m-Y H:i:s', strtotime($tggl_gangguan)); ?></td>
 
-                            <td><a href="<?php echo 'pages/user/bukti_device/' . $gambar; ?>" target="_blank">lihat</a></td>
+                            <td data-th="Gambar Device"><a href="<?php echo 'pages/user/bukti_device/' . $gambar; ?>" target="_blank">lihat</a></td>
 
-                            <td style="text-align: center;">
+                            <td data-th="Status" style="text-align: center;">
                                 <?php if ($status == 'aktif') { ?>
                                     <i class="fas fa-check" style="color: green;"></i>
                                 <?php } else { ?>
@@ -158,7 +182,7 @@ if (!isset($_SESSION['id']) || (isset($_SESSION['id']) && $_SESSION['account_typ
                                 <?php } ?>
                             </td>
 
-                            <td style="text-align: center;">
+                            <td data-th="Opsi" style="text-align: center;">
                                 <a href="pages/sg_user_edit.php?id=<?php echo $lihat['id_laporan'] ?>" class="btn btn-primary"><i class="fas fa-edit"> Edit</i></a>
 
                                 <?php if ($_SESSION['account_type'] == 'admin') { ?>

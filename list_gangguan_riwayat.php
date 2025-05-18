@@ -23,7 +23,7 @@ if (!isset($_SESSION['id'])  && !isset($_SESSION['account_type'])) {
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="icon" type="image/png" href="./image aset/images-removebg-preview.png">
-    <title>Administrator</title>
+    <title>Riwayat List Gangguan</title>
 
 </head>
 
@@ -90,7 +90,57 @@ if (!isset($_SESSION['id'])  && !isset($_SESSION['account_type'])) {
     <div class="content">
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <h2 class="page-header">Riwayat List Gangguan</h2>
+
             <hr>
+
+            <!-- Filter Data -->
+            <div class="row">
+                <div class="col-md-5">
+                    <!-- <h6>Filter Data</h6> -->
+                </div>
+
+                <div class="col-md-7">
+                    <form action="" method="get">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="date" name="date" value="<?= isset($_GET['date']) == true ? $_GET['date'] : '' ?>" class="form-control">
+                            </div>
+                            <div class="col-md-4">
+                                <select class="form-select" name="tipe" id="">
+                                    <option value="">Pilih tipe</option>
+                                    <option value="link" <?= isset($_GET['tipe']) == true ? ($_GET['tipe'] == 'link' ? 'selected' : '') : '' ?>>link</option>
+                                    <option value="CCTV" <?= isset($_GET['tipe']) == true ? ($_GET['tipe'] == 'CCTV' ? 'selected' : '') : '' ?>>CCTV</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <button type="submit" class="btn btn-primary">Filter</button>
+                                <a href="list_gangguan_riwayat.php" class="btn btn-danger">Reset</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- Filter Data -->
+
+            <?php
+            function validate($data)
+            {
+                $data = trim($data);
+                $data = stripslashes($data);
+                $data = htmlspecialchars($data);
+                return $data;
+            }
+
+            if (isset($_GET['date']) && $_GET['date'] != '') {
+                $date = validate($_GET['date']);
+                $query = $conn->query("SELECT * FROM list_gangguan JOIN device on list_gangguan.id_device = device.id WHERE date(tanggal_gangguan)='$date'");
+            } elseif (isset($_GET['tipe']) && $_GET['tipe'] != '') {
+                $tipe = validate($_GET['tipe']);
+                $query = $conn->query("SELECT * FROM list_gangguan JOIN device on list_gangguan.id_device = device.id WHERE device.type='$tipe'");
+            } else {
+                $query = $conn->query("SELECT * FROM list_gangguan JOIN device on list_gangguan.id_device = device.id ORDER BY tanggal_gangguan DESC");
+            }
+            ?>
 
             <table id="tabelpelanggan" class="table table-bordered table-hover">
                 <thead>
@@ -105,8 +155,6 @@ if (!isset($_SESSION['id'])  && !isset($_SESSION['account_type'])) {
                 </thead>
 
                 <?php
-                $query = $conn->query("SELECT * FROM list_gangguan 
-        JOIN device on list_gangguan.id_device = device.id");
 
                 $nomor = 1;
                 while ($lihat = $query->fetch_assoc()) {
@@ -133,11 +181,7 @@ if (!isset($_SESSION['id'])  && !isset($_SESSION['account_type'])) {
                             </td>
 
                             <td><?php echo date('d-m-Y H:i:s', strtotime($tggl_gangguan)); ?></td>
-
-                            <!-- <td>
-                                <a href="editpeminjam.php?id=<?php echo htmlspecialchars($lihat['id']); ?>" class="btn btn-primary"><i class="fas fa-edit"> Edit</i></a>
-                                <a href="hapuspeminjam.php?id=<?php echo htmlspecialchars($lihat['id']); ?>" class="btn btn-danger"><i class="fa fa-trash"> Hapus</i></a>
-                            </td> -->
+                            <!-- <td><?php echo $tggl_gangguan; ?></td> -->
 
                         </tr>
                         <?php $nomor++; ?>

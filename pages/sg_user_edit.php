@@ -35,7 +35,7 @@ if (!isset($_SESSION['id'])  && $_SESSION['account_type'] != 'admin') {
 
     <!-- Sidebar -->
     <div class="sidebar">
-        <a href="dashboard.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="../dashboard.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
 
         <?php if ($_SESSION['account_type'] === 'admin') { ?>
             <a href="../device.php"><i class="fas fa-box"></i> Device</a>

@@ -3,7 +3,7 @@ session_start();
 require("koneksi/koneksi.php");
 
 if (!isset($_SESSION['id'])  && !isset($_SESSION['account_type'])) {
-    echo "<script>window.open('login.php','_self')</script>";
+    header('location: logout.php');
 }
 ?>
 
@@ -91,6 +91,7 @@ if (!isset($_SESSION['id'])  && !isset($_SESSION['account_type'])) {
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <h2 class="page-header">Status List Gangguan</h2>
             <p>Tanggal: <?php echo date('d/m/Y'); ?></p>
+
             <hr>
 
             <table id="tabelpelanggan" class="table table-bordered table-hover">
@@ -102,17 +103,29 @@ if (!isset($_SESSION['id'])  && !isset($_SESSION['account_type'])) {
                         <th>Keterangan</th>
                         <th style="text-align: center;">Status</th>
                         <th>Tanggal Gangguan</th>
+
+                        <?php if ($_SESSION['account_type'] == 'teknisi') { ?>
+                            <th style="text-align: center;">Opsi</th>
+                        <?php } ?>
                     </tr>
                 </thead>
 
                 <?php
-                $query = $conn->query("SELECT * FROM list_gangguan 
-        JOIN device on list_gangguan.id_device = device.id
-        WHERE DATE(tanggal_gangguan) = CURDATE()");
+                $query = $conn->query("SELECT
+                list_gangguan.id,
+                list_gangguan.keterangan,
+                list_gangguan.status,
+                list_gangguan.tanggal_gangguan,
+                device.type,
+                device.device as nama_device
+                from list_gangguan
+                JOIN device on device.id = list_gangguan.id_device
+                WHERE DATE(tanggal_gangguan) = CURDATE()
+                ORDER BY device.type DESC");
 
                 $nomor = 1;
                 while ($lihat = $query->fetch_assoc()) {
-                    $nm_device = $lihat['device'];
+                    $nm_device = $lihat['nama_device'];
                     $ket = $lihat['keterangan'];
                     $status = $lihat['status'];
                     $tggl_gangguan = $lihat['tanggal_gangguan'];
@@ -136,10 +149,12 @@ if (!isset($_SESSION['id'])  && !isset($_SESSION['account_type'])) {
 
                             <td><?php echo date('d-m-Y H:i:s', strtotime($tggl_gangguan)); ?></td>
 
-                            <!-- <td>
-                                <a href="editpeminjam.php?id=<?php echo htmlspecialchars($lihat['id']); ?>" class="btn btn-primary"><i class="fas fa-edit"> Edit</i></a>
-                                <a href="hapuspeminjam.php?id=<?php echo htmlspecialchars($lihat['id']); ?>" class="btn btn-danger"><i class="fa fa-trash"> Hapus</i></a>
-                            </td> -->
+                            <?php if ($_SESSION['account_type'] == 'teknisi') { ?>
+                                <td>
+                                    <a href="pages/edit_list_gangguan.php?id=<?php echo htmlspecialchars($lihat['id']); ?>" class="btn btn-primary"><i class="fas fa-edit"> Edit</i></a>
+                                    <!-- <a href="hapuspeminjam.php?id=<?php echo htmlspecialchars($lihat['id']); ?>" class="btn btn-danger"><i class="fa fa-trash"> Hapus</i></a> -->
+                                </td>
+                            <?php } ?>
 
                         </tr>
                         <?php $nomor++; ?>

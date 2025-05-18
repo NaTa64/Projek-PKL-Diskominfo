@@ -3,8 +3,8 @@
 session_start();
 require('../koneksi/koneksi.php');
 
-if (!isset($_SESSION['id'])  && $_SESSION['account_type'] != 'admin') {
-    echo "<script>window.open('login.php','_self')</script>";
+if (!isset($_SESSION['id']) || $_SESSION['account_type'] != 'admin' && $_SESSION['account_type'] != 'teknisi') {
+    header('location: ../logout.php');
 }
 
 
@@ -35,7 +35,7 @@ if (!isset($_SESSION['id'])  && $_SESSION['account_type'] != 'admin') {
 
     <!-- Sidebar -->
     <div class="sidebar">
-        <a href="dashboard.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="../dashboard.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
 
         <?php if ($_SESSION['account_type'] === 'admin') { ?>
             <a href="../device.php"><i class="fas fa-box"></i> Device</a>
@@ -94,7 +94,7 @@ if (!isset($_SESSION['id'])  && $_SESSION['account_type'] != 'admin') {
     <!-- content -->
     <div class="content">
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h2 class="page-header">Edit Gangguan</h2>
+            <h2 class="page-header">Edit List Gangguan</h2>
             <hr>
             <form action="edit_list_gangguanproses.php" method="post" enctype="multipart/form-data">
                 <table>
@@ -149,12 +149,13 @@ if (!isset($_SESSION['id'])  && $_SESSION['account_type'] != 'admin') {
                             </div>
                         </div>
 
-                        <!-- <div class="box mt-5" style=" display: flex; justify-content: space-between;"> -->
                         <div class="box mt-5">
                             <button type="submit" class="btn btn-primary" name="simpan"><i class="fa fa-plus"></i> Simpan</button>
-                            <!-- <div class="d-flex"> -->
-                            <a href="../list_gangguan.php" class="btn btn-warning">Kembali</a>
-                            <!-- </div> -->
+                            <?php if ($_SESSION['account_type'] == 'admin') { ?>
+                                <a href="../list_gangguan.php" class="btn btn-warning">Kembali</a>
+                            <?php }else { ?>
+                                <a href="../status_gangguan.php" class="btn btn-warning">Kembali</a>
+                            <?php } ?>
                         </div>
 
                     </div>
