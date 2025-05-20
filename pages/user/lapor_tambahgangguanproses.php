@@ -1,5 +1,9 @@
 <?php
+session_start();
+
 include '../../koneksi/koneksi.php';
+
+$id_user = $_SESSION['id'];
 
 $device = $_POST['device'];
 $keterangan = $_POST['keterangan'];
@@ -15,7 +19,7 @@ if (isset($_POST['tambah'])) {
         move_uploaded_file($tmp_name, $path . $nama_file);
 
         // Insert data ke database
-        $query = "INSERT INTO lapor_gangguan (device, keterangan, tanggal_gangguan, image) VALUES ('$device', '$keterangan', NOW(), '$nama_file')";
+        $query = "INSERT INTO lapor_gangguan (id_user, device, keterangan, tanggal_gangguan, image) VALUES ($id_user,'$device', '$keterangan', NOW(), '$nama_file')";
         $result = $conn->query($query);
 
         if ($result) {

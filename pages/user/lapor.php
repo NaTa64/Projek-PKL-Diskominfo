@@ -64,7 +64,8 @@ if (!isset($_SESSION['id']) || (isset($_SESSION['id']) && $_SESSION['account_typ
                 </thead>
 
                 <?php
-                $query = $conn->query("SELECT * FROM lapor_gangguan WHERE aktif=1");
+                $query = $conn->query("SELECT * FROM lapor_gangguan
+                JOIN users ON users.id = lapor_gangguan.id_user WHERE lapor_gangguan.aktif=1 AND lapor_gangguan.id_user = '".$_SESSION['id']."'");
 
                 // pakai query ini jika hanya menampilkan laporan hanya hari ini
                 // $query = $conn->query("SELECT * FROM lapor_gangguan WHERE DATE(tanggal_gangguan) = CURDATE()");

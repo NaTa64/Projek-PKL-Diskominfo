@@ -94,6 +94,7 @@ if (!isset($_SESSION['id']) || (isset($_SESSION['id']) && $_SESSION['account_typ
                 <thead>
                     <tr>
                         <th style="text-align: center;">No</th>
+                        <th>Pelapor</th>
                         <th>Nama Device</th>
                         <th>Keterangan</th>
                         <th>Tanggal Gangguan</th>
@@ -103,7 +104,20 @@ if (!isset($_SESSION['id']) || (isset($_SESSION['id']) && $_SESSION['account_typ
                 </thead>
 
                 <?php
-                $query = $conn->query("SELECT * FROM lapor_gangguan");
+                $query = $conn->query("SELECT
+                lapor_gangguan.id_laporan,
+                lapor_gangguan.id_user,
+                lapor_gangguan.device,
+                lapor_gangguan.keterangan,
+                lapor_gangguan.tanggal_gangguan,
+                lapor_gangguan.tanggal_selesai,
+                lapor_gangguan.status,
+                lapor_gangguan.image,
+                lapor_gangguan.aktif,
+                users.user_name
+                FROM lapor_gangguan
+                JOIN users ON users.id = lapor_gangguan.id_user 
+                where aktif=1");
 
                 $nomor = 1;
                 while ($lihat = $query->fetch_assoc()) {
@@ -118,6 +132,7 @@ if (!isset($_SESSION['id']) || (isset($_SESSION['id']) && $_SESSION['account_typ
                     <tbody>
                         <tr>
                             <td style="text-align: center;"><?php echo $nomor; ?></td>
+                            <td data-th="Pelapor"><?php echo $lihat['user_name']; ?></td>
                             <td><?php echo htmlspecialchars($nm_device); ?></td>
                             <td><?php echo htmlspecialchars($ket); ?></td>
                             <td><?php echo date('d-m-Y H:i:s', strtotime($tggl_gangguan)); ?></td>

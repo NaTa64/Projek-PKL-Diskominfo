@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Gunakan prepared statement untuk menghindari SQL Injection
-    $query = $conn->prepare("SELECT * FROM all_user WHERE user_name = ? AND password = ?");
+    $query = $conn->prepare("SELECT * FROM users WHERE user_name = ? AND password = ?");
     $query->bind_Param("ss", $username, $password); // Mengikat parameter (menghindari SQL Injection)
     $query->execute();
 
@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($password == $row['password']) {
             // Jika password valid, set session untuk login admin
             $_SESSION['id'] = $row['id']; // Menyimpan id admin dalam session
-            $_SESSION['account_type'] = $row['admin_type']; // Menyimpan tipe admin dalam session
+            $_SESSION['account_type'] = $row['type']; // Menyimpan tipe admin dalam session
 
             // Redirect ke dashboard
             if ($_SESSION['account_type'] == 'admin') {
