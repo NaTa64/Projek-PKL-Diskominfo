@@ -20,7 +20,6 @@ if (!isset($_SESSION['id']) || (isset($_SESSION['id']) && $_SESSION['account_typ
   <link rel="stylesheet" href="assets/css/sidebar.css">
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-  <link rel="stylesheet" href="/css/sb-admin-2.css">
 
   <script src="/js/jquery.min1.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>

@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($_SESSION['account_type'] == 'admin') {
                 header("Location: dashboard.php");
             } elseif ($_SESSION['account_type'] == 'user') {
-                header("Location: pages/user/lapor.php"); // Ubah ke halaman yang diinginkan
+                header("Location: pages/user/dashboard.php"); // Ubah ke halaman yang diinginkan
             } elseif ($_SESSION['account_type'] == 'teknisi') {
                 header("Location: dashboard.php");
             }

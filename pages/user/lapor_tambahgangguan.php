@@ -74,12 +74,15 @@ if (!isset($_SESSION['id']) || (isset($_SESSION['id']) && $_SESSION['account_typ
 </head>
 
 <body>
+    <!-- Sidebar -->
     <div class="sidebar">
+        <a href="dashboard.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
         <a href="lapor.php"><i class="fas fa-clipboard"></i> Lapor Gangguan</a>
-        <a href="#"><i class="fas fa-clipboard"></i> Status</a>
+        <a href="status.php"><i class="fas fa-clipboard"></i> Status</a>
         <div style="flex-grow: 1;"></div>
         <a href="../../logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
+    <!-- Sidebar -->
 
     <!-- content -->
     <div class="content">

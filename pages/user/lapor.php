@@ -17,7 +17,7 @@ if (!isset($_SESSION['id']) || (isset($_SESSION['id']) && $_SESSION['account_typ
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <link rel="stylesheet" href="../../assets/css/sidebar.css">
-    
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -27,12 +27,15 @@ if (!isset($_SESSION['id']) || (isset($_SESSION['id']) && $_SESSION['account_typ
 </head>
 
 <body>
+    <!-- Sidebar -->
     <div class="sidebar">
+        <a href="dashboard.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
         <a href="lapor.php"><i class="fas fa-clipboard"></i> Lapor Gangguan</a>
         <a href="status.php"><i class="fas fa-clipboard"></i> Status</a>
         <div style="flex-grow: 1;"></div>
         <a href="../../logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
+    <!-- Sidebar -->
 
     <div class="content">
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -65,7 +68,7 @@ if (!isset($_SESSION['id']) || (isset($_SESSION['id']) && $_SESSION['account_typ
 
                 <?php
                 $query = $conn->query("SELECT * FROM lapor_gangguan
-                JOIN users ON users.id = lapor_gangguan.id_user WHERE lapor_gangguan.aktif=1 AND lapor_gangguan.id_user = '".$_SESSION['id']."'");
+                JOIN users ON users.id = lapor_gangguan.id_user WHERE lapor_gangguan.aktif=1 AND lapor_gangguan.id_user = '" . $_SESSION['id'] . "'");
 
                 // pakai query ini jika hanya menampilkan laporan hanya hari ini
                 // $query = $conn->query("SELECT * FROM lapor_gangguan WHERE DATE(tanggal_gangguan) = CURDATE()");
@@ -85,7 +88,7 @@ if (!isset($_SESSION['id']) || (isset($_SESSION['id']) && $_SESSION['account_typ
 
                             <td><?php echo date('d-m-Y H:i:s', strtotime($tggl_gangguan)); ?></td>
 
-                            <td><a href="<?php echo 'bukti_device/'.$lihat['image']; ?>" target="_blank">lihat bukti</a></td>
+                            <td><a href="<?php echo 'bukti_device/' . $lihat['image']; ?>" target="_blank">lihat bukti</a></td>
 
                             <td>
                                 <!-- <a href="editpeminjam.php?id_laporan=<?php echo htmlspecialchars($lihat['id_laporan']); ?>" class="btn btn-primary"><i class="fas fa-edit"> Edit</i></a> -->

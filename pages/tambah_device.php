@@ -113,7 +113,7 @@ require("../koneksi/koneksi.php");
                             <button type="submit" class="btn btn-primary" name="tambah"><i class="fa fa-plus"></i> Tambah Data</button>
                             <!-- <div class="d-flex"> -->
                             <button type="reset" class="btn btn-danger">Reset Data</button>
-                            <a href="produk.php" class="btn btn-warning">Kembali</a>
+                            <a href="../device.php" class="btn btn-warning">Kembali</a>
                             <!-- </div> -->
                         </div>
 

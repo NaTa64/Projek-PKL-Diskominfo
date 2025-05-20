@@ -37,6 +37,9 @@ if ($current_page < 1) {
 
 // Hitung offset
 $offset = ($current_page - 1) * $records_per_page;
+if ($offset < 0) {
+    $offset = 0;
+}
 
 // Query dengan pagination
 if (isset($_GET['date']) && $_GET['date'] != '' && isset($_GET['tipe']) && $_GET['tipe'] != '') {
