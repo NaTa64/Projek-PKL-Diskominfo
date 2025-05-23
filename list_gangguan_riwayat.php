@@ -6,10 +6,15 @@ if (!isset($_SESSION['id']) && !isset($_SESSION['account_type'])) {
     header('location: logout.php');
 }
 
-// Konfigurasi pagination
-$records_per_page =10; // Jumlah record per halaman
+function validate($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
 
-// Hitung total records
+// query filter data
 if (isset($_GET['date']) && $_GET['date'] != '' && isset($_GET['tipe']) && $_GET['tipe'] != '') {
     $date = validate($_GET['date']);
     $tipe = validate($_GET['tipe']);
@@ -23,6 +28,9 @@ if (isset($_GET['date']) && $_GET['date'] != '' && isset($_GET['tipe']) && $_GET
 } else {
     $count_query = $conn->query("SELECT COUNT(*) as total FROM list_gangguan JOIN device on list_gangguan.id_device = device.id");
 }
+
+// Konfigurasi pagination
+$records_per_page =10; // Jumlah record per halaman
 
 $total_records = $count_query->fetch_assoc()['total'];
 $total_pages = ceil($total_records / $records_per_page);
@@ -56,13 +64,7 @@ if (isset($_GET['date']) && $_GET['date'] != '' && isset($_GET['tipe']) && $_GET
     $query = $conn->query("SELECT * FROM list_gangguan JOIN device on list_gangguan.id_device = device.id ORDER BY tanggal_gangguan DESC LIMIT $offset, $records_per_page");
 }
 
-function validate($data)
-{
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
+
 ?>
 
 <!DOCTYPE html>

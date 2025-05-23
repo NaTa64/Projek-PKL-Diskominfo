@@ -1,11 +1,27 @@
 <?php
 session_start();
+require("koneksi/koneksi.php");
 
 if (!isset($_SESSION['id']) || (isset($_SESSION['id']) && $_SESSION['account_type'] != 'admin')) {
   echo "<script>window.open('logout.php','_self')</script>";
 }
 
-require("koneksi/koneksi.php");
+function validate($data)
+{
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  return $data;
+}
+
+if (isset($_GET['tipe']) && $_GET['tipe'] != '') {
+  $tipe = validate($_GET['tipe']);
+  $query = "SELECT * from device where type='$tipe'";
+} else {
+  $query = "SELECT * from device order by type desc";
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -25,7 +41,11 @@ require("koneksi/koneksi.php");
   <link rel="icon" type="image/png" href="./image aset/images-removebg-preview.png">
   <title>Device</title>
 
-
+<style>
+  .form-select {
+    width: 95%;
+  }
+</style>
 </head>
 
 <body>
@@ -88,21 +108,36 @@ require("koneksi/koneksi.php");
   </div>
   <!-- Sidebar -->
 
+  <!-- container -->
   <div class="content">
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
       <h2 class="page-header">Device</h2>
       <hr>
 
-      <!-- sesi untuk tombol tambah gangguan -->
+      <!-- sesi untuk tombol tambah gangguan & filter data-->
       <?php
       if ($_SESSION['account_type'] === 'admin') {
       ?>
         <div class="row-search flex-end" style="padding-bottom: 10px;">
+          <form action="" method="get" class="d-flex me-2">
+            <div class="col-md-6">
+              <select class="form-select" name="tipe">
+                <option value="">Pilih tipe</option>
+                <option value="link" <?= isset($_GET['tipe']) == true ? ($_GET['tipe'] == 'link' ? 'selected' : '') : '' ?>>link</option>
+                <option value="CCTV" <?= isset($_GET['tipe']) == true ? ($_GET['tipe'] == 'CCTV' ? 'selected' : '') : '' ?>>CCTV</option>
+              </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Filter</button>
+            <a href="device.php" class="btn btn-danger">Reset</a>
+          </form>
+          
           <a href="pages/tambah_device.php" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Device</a>
         </div>
       <?php
       }
       ?>
+      <!-- sesi untuk tombol tambah gangguan & filter data-->
 
       <table class="table table-bordered table-hover">
         <thead>
@@ -114,8 +149,6 @@ require("koneksi/koneksi.php");
         </thead>
 
         <?php
-
-        $query = "SELECT * from device";
 
         $result = $conn->query($query);
         $no = 1;
@@ -147,6 +180,8 @@ require("koneksi/koneksi.php");
       </table>
     </div>
   </div>
+  <!-- container -->
+
 </body>
 
 </html>
