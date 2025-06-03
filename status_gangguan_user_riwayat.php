@@ -63,7 +63,7 @@ if (isset($_GET['date']) && $_GET['date'] != '') {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="icon" type="image/png" href="./image aset/images-removebg-preview.png">
+      <link rel="icon" type="image/png" href="assets/img/logo.png">
     <title>Riwayat Gangguan User</title>
 </head>
 
@@ -147,7 +147,7 @@ if (isset($_GET['date']) && $_GET['date'] != '') {
                         <a href="status_gangguan_user_riwayat.php" class="btn btn-danger">Reset</a>
 
                         <!-- Tombol Cetak -->
-                        <button type="button" onclick="window.print()" class="btn btn-secondary">Cetak</button>
+                        <button type="button" onclick="window.print()" class="btn btn-info">Cetak</button>
 
                     </form>
                 </div>
@@ -189,11 +189,13 @@ if (isset($_GET['date']) && $_GET['date'] != '') {
 
                             <td><a href="<?php echo 'pages/user/bukti_device/' . $gambar; ?>" target="_blank">lihat</a></td>
 
-                            <td style="text-align: center;">
-                                <?php if ($status == 'aktif') { ?>
-                                    <i class="fas fa-check" style="color: green;"></i>
+                            <td width="10%" style="text-align: center;">
+                                <?php if ($status == 'open') { ?>
+                                    <button class="btn btn-success btn-md">Open</button>
+                                <?php } elseif ($status == 'pending') { ?>
+                                    <button class="btn btn-warning btn-md">Pending</button>
                                 <?php } else { ?>
-                                    <i class="fas fa-times" style="color: red;"></i>
+                                    <button class="btn btn-secondary btn-md">Closed</button>
                                 <?php } ?>
                             </td>
 

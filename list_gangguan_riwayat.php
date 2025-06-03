@@ -79,7 +79,7 @@ if (isset($_GET['date']) && $_GET['date'] != '' && isset($_GET['tipe']) && $_GET
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="icon" type="image/png" href="./image aset/images-removebg-preview.png">
+      <link rel="icon" type="image/png" href="assets/img/logo.png">
     <title>Riwayat List Gangguan</title>
 </head>
 
@@ -171,14 +171,14 @@ if (isset($_GET['date']) && $_GET['date'] != '' && isset($_GET['tipe']) && $_GET
                         <a href="list_gangguan_riwayat.php" class="btn btn-danger">Reset</a>
 
                         <!-- Tombol Cetak -->
-                        <button type="button" onclick="window.print()" class="btn btn-secondary">Cetak</button>
+                        <button type="button" onclick="window.print()" class="btn btn-info">Cetak</button>
 
                     </form>
                 </div>
             </div>
             <!-- Filter Data -->
 
-            
+
 
             <table id="tabelpelanggan" class="table table-bordered table-hover">
                 <thead>
@@ -206,13 +206,17 @@ if (isset($_GET['date']) && $_GET['date'] != '' && isset($_GET['tipe']) && $_GET
                             <td><?php echo htmlspecialchars($nm_device); ?></td>
                             <td><?php echo ($tipe); ?></td>
                             <td><?php echo htmlspecialchars($ket); ?></td>
+
                             <td width="10%" style="text-align: center;">
-                                <?php if ($status == 'aktif') { ?>
-                                    <i class="fas fa-check" style="color: green;"></i>
+                                <?php if ($status == 'open') { ?>
+                                    <button class="btn btn-success btn-md">Open</button>
+                                <?php } elseif ($status == 'pending') { ?>
+                                    <button class="btn btn-warning btn-md">Pending</button>
                                 <?php } else { ?>
-                                    <i class="fas fa-times" style="color: red;"></i>
+                                    <button class="btn btn-secondary btn-md">Closed</button>
                                 <?php } ?>
                             </td>
+
                             <td><?php echo date('d-m-Y H:i:s', strtotime($tggl_gangguan)); ?></td>
                         </tr>
                     <?php

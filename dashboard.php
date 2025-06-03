@@ -26,7 +26,7 @@ if (!isset($_SESSION['id']) || (isset($_SESSION['id']) && $_SESSION['account_typ
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-  <link rel="icon" type="image/png" href="./image aset/images-removebg-preview.png">
+    <link rel="icon" type="image/png" href="assets/img/logo.png">
 
   <title>Dashboard</title>
 </head>

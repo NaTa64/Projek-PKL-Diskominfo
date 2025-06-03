@@ -23,7 +23,7 @@ if (!isset($_SESSION['id'])  && $_SESSION['account_type'] != 'admin') {
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="icon" type="image/png" href="./image aset/images-removebg-preview.png">
+      <link rel="icon" type="image/png" href="assets/img/logo.png">
 
     <link href="../assets/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../assets/css/status.css">

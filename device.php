@@ -38,7 +38,7 @@ if (isset($_GET['tipe']) && $_GET['tipe'] != '') {
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-  <link rel="icon" type="image/png" href="./image aset/images-removebg-preview.png">
+    <link rel="icon" type="image/png" href="assets/img/logo.png">
   <title>Device</title>
 
   <style>
@@ -112,6 +112,7 @@ if (isset($_GET['tipe']) && $_GET['tipe'] != '') {
   <div class="content">
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
       <h2 class="page-header">Device</h2>
+
       <hr>
 
       <!-- sesi untuk tombol tambah gangguan & filter data-->
@@ -131,7 +132,8 @@ if (isset($_GET['tipe']) && $_GET['tipe'] != '') {
             <button type="submit" class="btn btn-primary">Filter</button>
             <a href="device.php" class="btn btn-danger">Reset</a>
           </form>
-
+          
+          <a href="https://pwa.samagov.id/masyarakat/pantau-sekitar" class="btn btn-info" target="_blank">Pantau CCTV</a>
           <a href="pages/tambah_device.php" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Device</a>
         </div>
       <?php
@@ -178,6 +180,8 @@ if (isset($_GET['tipe']) && $_GET['tipe'] != '') {
         } ?>
           </tbody>
       </table>
+      <hr>
+
     </div>
   </div>
   <!-- container -->

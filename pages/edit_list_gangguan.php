@@ -23,7 +23,7 @@ if (!isset($_SESSION['id']) || $_SESSION['account_type'] != 'admin' && $_SESSION
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="icon" type="image/png" href="./image aset/images-removebg-preview.png">
+      <link rel="icon" type="image/png" href="assets/img/logo.png">
 
     <link href="../assets/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../assets/css/status.css">
@@ -138,13 +138,18 @@ if (!isset($_SESSION['id']) || $_SESSION['account_type'] != 'admin' && $_SESSION
                             <label for="">Status : </label>
                             <div class="form-group" style="margin-top: 10px; ">
                                 <label class="radio-inline">
-                                    <input type="radio" name="status" value="aktif" id="aktif" <?php if ($result['status'] == 'aktif') echo 'checked'; ?> required />
-                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                    <input type="radio" name="status" value="open" id="open" <?php if ($result['status'] == 'open') echo 'checked'; ?> required />
+                                    Open
                                 </label>
 
                                 <label class="radio-inline">
-                                    <input type="radio" name="status" value="tidak_aktif" id="tidak_aktif" <?php if ($result['status'] == 'tidak_aktif') echo 'checked'; ?> required />
-                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                    <input type="radio" name="status" value="pending" id="pending" <?php if ($result['status'] == 'pending') echo 'checked'; ?> required />
+                                    Pending
+                                </label>
+
+                                <label class="radio-inline">
+                                    <input type="radio" name="status" value="closed" id="closed" <?php if ($result['status'] == 'closed') echo 'checked'; ?> required />
+                                    Closed
                                 </label>
                             </div>
                         </div>

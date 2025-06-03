@@ -58,7 +58,7 @@ if (isset($_GET['tipe']) && $_GET['tipe'] != '') {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="icon" type="image/png" href="./image aset/images-removebg-preview.png">
+      <link rel="icon" type="image/png" href="assets/img/logo.png">
     <title>Status List Gangguan</title>
 
     <style>
@@ -229,10 +229,12 @@ if (isset($_GET['tipe']) && $_GET['tipe'] != '') {
                             <td><?php echo htmlspecialchars($ket); ?></td>
 
                             <td width="10%" style="text-align: center;">
-                                <?php if ($status == 'aktif') { ?>
-                                    <i class="fas fa-check" style="color: green;"></i>
+                                <?php if ($status == 'open') { ?>
+                                    <button class="btn btn-success btn-md">Open</button>
+                                <?php } elseif ($status == 'pending') { ?>
+                                    <button class="btn btn-warning btn-md">Pending</button>
                                 <?php } else { ?>
-                                    <i class="fas fa-times" style="color: red;"></i>
+                                    <button class="btn btn-secondary btn-md">Closed</button>
                                 <?php } ?>
                             </td>
 

@@ -12,49 +12,55 @@ require("koneksi/koneksi.php");
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link rel="stylesheet" href="assets/css/login.css">
-    <link rel="icon" type="image/png" href="./image aset/images-removebg-preview.png">
+    <!-- <link rel="stylesheet" href="assets/css/login.css"> -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="icon" href="assets/img/logo.png">
+
     <title>Login</title>
 </head>
 
 <body>
-    <!----------------------- Main Container -------------------------->
-    <div class="row" style="background:#0379C8">
-        <div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="l-form">
+        <div class="shape1"></div>
+        <div class="shape2"></div>
 
-            <!----------------------- Login Container -------------------------->
+        <div class="form">
+            <img src="assets/img/authentication.svg" alt="" class="form__img">
 
-            <div class="row border rounded-5 p-3 bg-white shadow">
+            <form action="proseslogin.php" class="form__content" method="post">
+                <h1 class="form__title">Welcome</h1>
 
-                <!-------------------- ------ Right Box ---------------------------->
+                <div class="form__div form__div-one">
+                    <div class="form__icon">
+                        <i class='bx bx-user-circle'></i>
+                    </div>
 
-                <div class="col-md right-box">
-                    <div class="row align-items- text-center">
-                        <div class="header-text mb-4">
-                            <h2>Silahkan Login!</h2>
-                        </div>
-                        <?php if (isset($_GET['error'])) : ?>
-                            <?php if ($_GET['error'] == 'Username atau Password salah') : ?>
-                                <div class="alert alert-danger">Username atau Password salah</div>
-                            <?php endif; ?>
-                        <?php endif; ?>
-                        <form action="proseslogin.php" method="post">
-                            <div class="input-group mb-3">
-                                <input name="username" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Username" required>
-                            </div>
-                            <div class="input-group mb-3">
-                                <input type="password" name="password" class="form-control form-control-lg bg-light fs-6" placeholder="Password" required>
-                            </div>
-                            <div class="input-group mb-3">
-                                <button class="btn btn-lg btn-primary w-100 fs-6">Login</button>
-                            </div>
-                        </form>
+                    <div class="form__div-input">
+                        <label for="" class="form__label">Username</label>
+                        <input type="text" class="form__input" name="username">
                     </div>
                 </div>
-            </div>
+
+                <div class="form__div">
+                    <div class="form__icon">
+                        <i class='bx bx-lock'></i>
+                    </div>
+
+                    <div class="form__div-input">
+                        <label for="" class="form__label">Password</label>
+                        <input type="password" class="form__input" name="password">
+                    </div>
+                </div>
+
+                <input type="submit" class="form__button" value="Login">
+            </form>
         </div>
 
+    </div>
+
+    <!-- ===== MAIN JS ===== -->
+    <script src="assets/js/main.js"></script>
 </body>
 
 </html>
-</div>
