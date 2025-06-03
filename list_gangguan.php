@@ -6,6 +6,45 @@ if (!isset($_SESSION['id']) || (isset($_SESSION['id']) && $_SESSION['account_typ
   header('Location: logout.php');
   exit;
 }
+
+function validate($data)
+{
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  return $data;
+}
+
+if (isset($_GET['tipe']) && $_GET['tipe'] != '') {
+  $tipe = validate($_GET['tipe']);
+  $query = $conn->query("SELECT
+        list_gangguan.id,
+        list_gangguan.keterangan,
+        list_gangguan.status,
+        list_gangguan.tanggal_gangguan,
+        device.device as nama_device,
+        device.type as tipe
+        from list_gangguan
+        JOIN device on device.id = list_gangguan.id_device
+        WHERE DATE(tanggal_gangguan) = CURDATE() and device.type='$tipe'");
+} else {
+  $query = $conn->query("SELECT
+        list_gangguan.id,
+        list_gangguan.keterangan,
+        list_gangguan.status,
+        list_gangguan.tanggal_gangguan,
+        device.device as nama_device,
+        device.type as tipe
+        from list_gangguan
+        JOIN device on device.id = list_gangguan.id_device
+        WHERE DATE(tanggal_gangguan) = CURDATE()
+        ORDER BY CASE
+            WHEN device.type = 'link' THEN 1
+            WHEN device.type = 'cctv' THEN 2
+            ELSE 3
+        END");
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -26,6 +65,11 @@ if (!isset($_SESSION['id']) || (isset($_SESSION['id']) && $_SESSION['account_typ
   <link rel="icon" type="image/png" href="./image aset/images-removebg-preview.png">
   <title>List Gangguan</title>
 
+  <style>
+    .form-select {
+      width: 95%;
+    }
+  </style>
 </head>
 
 <body>
@@ -94,24 +138,39 @@ if (!isset($_SESSION['id']) || (isset($_SESSION['id']) && $_SESSION['account_typ
       <p>Tanggal: <?php echo date('d/m/Y'); ?></p>
       <hr>
 
-      <!-- sesi untuk tombol tambah gangguan -->
+      <!-- sesi untuk tombol tambah gangguan & filter data-->
       <?php
       if ($_SESSION['account_type'] === 'admin') {
       ?>
         <div class="row-search" style="padding-bottom: 10px;">
+          <form action="" method="get" class="d-flex me-2">
+            <div class="col-md-6">
+              <select class="form-select" name="tipe">
+                <option value="">Pilih tipe</option>
+                <option value="link" <?= isset($_GET['tipe']) == true ? ($_GET['tipe'] == 'link' ? 'selected' : '') : '' ?>>link</option>
+                <option value="CCTV" <?= isset($_GET['tipe']) == true ? ($_GET['tipe'] == 'CCTV' ? 'selected' : '') : '' ?>>CCTV</option>
+              </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Filter</button>
+            <a href="list_gangguan.php" class="btn btn-danger">Reset</a>
+          </form>
+
           <a href="pages/tambah_gangguan.php" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Gangguan</a>
         </div>
       <?php
       }
       ?>
-
+      <!-- sesi untuk tombol tambah gangguan & filter data-->
 
       <table id="tabelpelanggan" class="table table-bordered table-hover">
         <thead>
           <tr>
             <th style="text-align: center;">No</th>
+            <!-- <th>Tiket</th> -->
             <th>Nama Device</th>
-            <th>Keterangan</th>
+            <th>Tipe</th>
+            <th>Kerusakan</th>
             <!-- <th>Tanggal Gangguan</th> -->
             <th style="text-align: center;">Status</th>
             <th style="text-align: center;">Opsi</th>
@@ -119,19 +178,12 @@ if (!isset($_SESSION['id']) || (isset($_SESSION['id']) && $_SESSION['account_typ
         </thead>
 
         <?php
-        $query = $conn->query("SELECT
-        list_gangguan.id,
-        list_gangguan.keterangan,
-        list_gangguan.status,
-        list_gangguan.tanggal_gangguan,
-        device.device as nama_device
-        from list_gangguan
-        JOIN device on device.id = list_gangguan.id_device
-        WHERE DATE(tanggal_gangguan) = CURDATE()");
+
 
         $nomor = 1;
         while ($lihat = $query->fetch_assoc()) {
           $nm_device = $lihat['nama_device'];
+          $tipe = $lihat['tipe'];
           $ket = $lihat['keterangan'];
           $status = $lihat['status'];
           $tggl_gangguan = $lihat['tanggal_gangguan'];
@@ -141,6 +193,7 @@ if (!isset($_SESSION['id']) || (isset($_SESSION['id']) && $_SESSION['account_typ
             <tr>
               <td style="text-align: center;"><?php echo $nomor; ?></td>
               <td><?php echo htmlspecialchars($nm_device); ?></td>
+              <td><?php echo ($tipe); ?></td>
               <td><?php echo htmlspecialchars($ket); ?></td>
 
               <!-- <td><?php echo date('d-m-Y H:i:s', strtotime($tggl_gangguan)); ?></td> -->

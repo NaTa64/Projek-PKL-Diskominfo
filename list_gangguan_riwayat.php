@@ -14,7 +14,7 @@ function validate($data)
     return $data;
 }
 
-// query filter data
+// query hitung data
 if (isset($_GET['date']) && $_GET['date'] != '' && isset($_GET['tipe']) && $_GET['tipe'] != '') {
     $date = validate($_GET['date']);
     $tipe = validate($_GET['tipe']);
@@ -30,7 +30,7 @@ if (isset($_GET['date']) && $_GET['date'] != '' && isset($_GET['tipe']) && $_GET
 }
 
 // Konfigurasi pagination
-$records_per_page =10; // Jumlah record per halaman
+$records_per_page = 10; // Jumlah record per halaman
 
 $total_records = $count_query->fetch_assoc()['total'];
 $total_pages = ceil($total_records / $records_per_page);
@@ -49,7 +49,7 @@ if ($offset < 0) {
     $offset = 0;
 }
 
-// Query dengan pagination
+// Query filter data dengan pagination
 if (isset($_GET['date']) && $_GET['date'] != '' && isset($_GET['tipe']) && $_GET['tipe'] != '') {
     $date = validate($_GET['date']);
     $tipe = validate($_GET['tipe']);
@@ -148,32 +148,37 @@ if (isset($_GET['date']) && $_GET['date'] != '' && isset($_GET['tipe']) && $_GET
             <hr>
 
             <!-- Filter Data -->
-            <div class="row">
-                <div class="col-md-5">
-                    <p>Total Data: <?php echo $total_records; ?></p>
-                </div>
-                <div class="col-md-7">
-                    <form action="" method="get">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <input type="date" name="date" value="<?= isset($_GET['date']) == true ? $_GET['date'] : '' ?>" class="form-control">
-                            </div>
-                            <div class="col-md-4">
-                                <select class="form-select" name="tipe" id="">
-                                    <option value="">Pilih tipe</option>
-                                    <option value="link" <?= isset($_GET['tipe']) == true ? ($_GET['tipe'] == 'link' ? 'selected' : '') : '' ?>>link</option>
-                                    <option value="CCTV" <?= isset($_GET['tipe']) == true ? ($_GET['tipe'] == 'CCTV' ? 'selected' : '') : '' ?>>CCTV</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <button type="submit" class="btn btn-primary">Filter</button>
-                                <a href="list_gangguan_riwayat.php" class="btn btn-danger">Reset</a>
-                            </div>
-                        </div>
+            <div class="row mb-2">
+                <div class="col-md-12 d-flex justify-content-end">
+                    <form action="" method="get" class="d-flex align-items-center gap-2">
+
+                        <!-- <p >Total Data: <?php echo $total_records; ?></p> -->
+
+                        <!-- Input tanggal gangguan -->
+                        <input type="date" name="date" value="<?= isset($_GET['date']) == true ? $_GET['date'] : '' ?>" class="form-control">
+
+                        <!-- Input Tipe perangkat -->
+                        <select class="form-select" name="tipe">
+                            <option value="">Pilih tipe</option>
+                            <option value="link" <?= (isset($_GET['tipe']) && $_GET['tipe'] == 'link') ? 'selected' : '' ?>>Link</option>
+                            <option value="CCTV" <?= (isset($_GET['tipe']) && $_GET['tipe'] == 'CCTV') ? 'selected' : '' ?>>CCTV</option>
+                        </select>
+
+                        <!-- Tombol Filter -->
+                        <button type="submit" class="btn btn-primary">Filter</button>
+
+                        <!-- Tombol Reset -->
+                        <a href="list_gangguan_riwayat.php" class="btn btn-danger">Reset</a>
+
+                        <!-- Tombol Cetak -->
+                        <button type="button" onclick="window.print()" class="btn btn-secondary">Cetak</button>
+
                     </form>
                 </div>
             </div>
             <!-- Filter Data -->
+
+            
 
             <table id="tabelpelanggan" class="table table-bordered table-hover">
                 <thead>

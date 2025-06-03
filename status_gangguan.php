@@ -5,6 +5,42 @@ require("koneksi/koneksi.php");
 if (!isset($_SESSION['id'])  && !isset($_SESSION['account_type'])) {
     header('location: logout.php');
 }
+
+function validate($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
+if (isset($_GET['tipe']) && $_GET['tipe'] != '') {
+    $tipe = validate($_GET['tipe']);
+    $query = $conn->query("SELECT
+                list_gangguan.id,
+                list_gangguan.keterangan,
+                list_gangguan.status,
+                list_gangguan.tanggal_gangguan,
+                device.type,
+                device.device as nama_device
+                from list_gangguan
+                JOIN device on device.id = list_gangguan.id_device
+                WHERE DATE(tanggal_gangguan) = CURDATE() and device.type = '$tipe'
+                ORDER BY device.type DESC");
+} else {
+    $query = $conn->query("SELECT
+                list_gangguan.id,
+                list_gangguan.keterangan,
+                list_gangguan.status,
+                list_gangguan.tanggal_gangguan,
+                device.type,
+                device.device as nama_device
+                from list_gangguan
+                JOIN device on device.id = list_gangguan.id_device
+                WHERE DATE(tanggal_gangguan) = CURDATE()
+                ORDER BY device.type DESC");
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -24,6 +60,49 @@ if (!isset($_SESSION['id'])  && !isset($_SESSION['account_type'])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="icon" type="image/png" href="./image aset/images-removebg-preview.png">
     <title>Status List Gangguan</title>
+
+    <style>
+        @media (max-width: 768px) {
+            th {
+                display: none;
+            }
+
+            td {
+                display: grid;
+            }
+
+            td:first-child {
+                padding-top: 2rem;
+            }
+
+            td:last-child {
+                padding-bottom: 2rem;
+            }
+
+            td::before {
+                content: attr(data-th) ": " attr(data-value);
+                font-weight: 700;
+            }
+
+            select.form-select {
+                max-width: 100%;
+                /* Di mobile, gunakan lebar penuh */
+            }
+
+            /* Untuk form filter di mobile */
+            form.d-flex {
+                flex-direction: column;
+                gap: 10px !important;
+                width: 100%;
+            }
+
+            form.d-flex .form-select,
+            form.d-flex .btn {
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+        }
+    </style>
 
 </head>
 
@@ -94,34 +173,44 @@ if (!isset($_SESSION['id'])  && !isset($_SESSION['account_type'])) {
 
             <hr>
 
+            <!-- Filter Data -->
+            <div class="row mb-2">
+                <div class="col-md-12 d-flex justify-content-end">
+                    <form action="" method="get" class="d-flex align-items-center gap-2">
+                        <!-- Select Box -->
+                        <select class="form-select" name="tipe" style="width: 200px;">
+                            <option value="">Pilih tipe</option>
+                            <option value="link" <?= isset($_GET['tipe']) && $_GET['tipe'] == 'link' ? 'selected' : '' ?>>link</option>
+                            <option value="CCTV" <?= isset($_GET['tipe']) && $_GET['tipe'] == 'CCTV' ? 'selected' : '' ?>>CCTV</option>
+                        </select>
+
+                        <!-- Tombol Filter -->
+                        <button type="submit" class="btn btn-primary">Filter</button>
+
+                        <!-- Tombol Reset -->
+                        <a href="status_gangguan.php" class="btn btn-danger">Reset</a>
+                    </form>
+                </div>
+            </div>
+            <!-- Filter Data -->
+
             <table id="tabelpelanggan" class="table table-bordered table-hover">
                 <thead>
                     <tr>
-                        <th style="text-align: center;">No</th>
-                        <th>Nama Device</th>
-                        <th>Tipe</th>
-                        <th>Keterangan</th>
-                        <th style="text-align: center;">Status</th>
-                        <th>Tanggal Gangguan</th>
+                        <th data-th="No" style="text-align: center;">No</th>
+                        <th data-th="Nama Device">Nama Device</th>
+                        <th data-th="Tipe">Tipe</th>
+                        <th data-th="Keterangan">Keterangan</th>
+                        <th data-th="Status" style="text-align: center;">Status</th>
+                        <th data-th="Tanggal Gangguan">Tanggal Gangguan</th>
 
                         <?php if ($_SESSION['account_type'] == 'teknisi') { ?>
-                            <th style="text-align: center;">Opsi</th>
+                            <th data-th="Opsi" style="text-align: center;">Opsi</th>
                         <?php } ?>
                     </tr>
                 </thead>
 
                 <?php
-                $query = $conn->query("SELECT
-                list_gangguan.id,
-                list_gangguan.keterangan,
-                list_gangguan.status,
-                list_gangguan.tanggal_gangguan,
-                device.type,
-                device.device as nama_device
-                from list_gangguan
-                JOIN device on device.id = list_gangguan.id_device
-                WHERE DATE(tanggal_gangguan) = CURDATE()
-                ORDER BY device.type DESC");
 
                 $nomor = 1;
                 while ($lihat = $query->fetch_assoc()) {

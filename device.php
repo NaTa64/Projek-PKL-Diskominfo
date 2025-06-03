@@ -41,11 +41,11 @@ if (isset($_GET['tipe']) && $_GET['tipe'] != '') {
   <link rel="icon" type="image/png" href="./image aset/images-removebg-preview.png">
   <title>Device</title>
 
-<style>
-  .form-select {
-    width: 95%;
-  }
-</style>
+  <style>
+    .form-select {
+      width: 95%;
+    }
+  </style>
 </head>
 
 <body>
@@ -131,7 +131,7 @@ if (isset($_GET['tipe']) && $_GET['tipe'] != '') {
             <button type="submit" class="btn btn-primary">Filter</button>
             <a href="device.php" class="btn btn-danger">Reset</a>
           </form>
-          
+
           <a href="pages/tambah_device.php" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Device</a>
         </div>
       <?php

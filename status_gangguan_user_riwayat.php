@@ -6,6 +6,48 @@ if (!isset($_SESSION['id']) || (isset($_SESSION['id']) && $_SESSION['account_typ
     header('Location: logout.php');
     exit;
 }
+
+function validate($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
+if (isset($_GET['date']) && $_GET['date'] != '') {
+    $date = validate($_GET['date']);
+    $query = $conn->query("SELECT
+                lapor_gangguan.id_laporan,
+                lapor_gangguan.id_user,
+                lapor_gangguan.device,
+                lapor_gangguan.keterangan,
+                lapor_gangguan.tanggal_gangguan,
+                lapor_gangguan.tanggal_selesai,
+                lapor_gangguan.status,
+                lapor_gangguan.image,
+                lapor_gangguan.aktif,
+                users.user_name
+                FROM lapor_gangguan
+                JOIN users ON users.id = lapor_gangguan.id_user and date(tanggal_gangguan) = '$date'
+                where aktif=1 order by status desc");
+} else {
+    $query = $conn->query("SELECT
+                lapor_gangguan.id_laporan,
+                lapor_gangguan.id_user,
+                lapor_gangguan.device,
+                lapor_gangguan.keterangan,
+                lapor_gangguan.tanggal_gangguan,
+                lapor_gangguan.tanggal_selesai,
+                lapor_gangguan.status,
+                lapor_gangguan.image,
+                lapor_gangguan.aktif,
+                users.user_name
+                FROM lapor_gangguan
+                JOIN users ON users.id = lapor_gangguan.id_user 
+                where aktif=1 order by status desc");
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -88,7 +130,29 @@ if (!isset($_SESSION['id']) || (isset($_SESSION['id']) && $_SESSION['account_typ
     <div class="content">
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <h2 class="page-header">Riwayat Status Gangguan User</h2>
+
             <hr>
+
+            <!-- Filter Data -->
+            <div class="row mb-2">
+                <div class="col-md-12 d-flex justify-content-end">
+                    <form action="" method="get" class="d-flex align-items-center gap-2">
+                        <!-- Input tanggal gangguan -->
+                        <input type="date" name="date" value="<?= isset($_GET['date']) == true ? $_GET['date'] : '' ?>" class="form-control">
+
+                        <!-- Tombol Filter -->
+                        <button type="submit" class="btn btn-primary">Filter</button>
+
+                        <!-- Tombol Reset -->
+                        <a href="status_gangguan_user_riwayat.php" class="btn btn-danger">Reset</a>
+
+                        <!-- Tombol Cetak -->
+                        <button type="button" onclick="window.print()" class="btn btn-secondary">Cetak</button>
+
+                    </form>
+                </div>
+            </div>
+            <!-- Filter Data -->
 
             <table id="tabelpelanggan" class="table table-bordered table-hover">
                 <thead>
@@ -104,20 +168,6 @@ if (!isset($_SESSION['id']) || (isset($_SESSION['id']) && $_SESSION['account_typ
                 </thead>
 
                 <?php
-                $query = $conn->query("SELECT
-                lapor_gangguan.id_laporan,
-                lapor_gangguan.id_user,
-                lapor_gangguan.device,
-                lapor_gangguan.keterangan,
-                lapor_gangguan.tanggal_gangguan,
-                lapor_gangguan.tanggal_selesai,
-                lapor_gangguan.status,
-                lapor_gangguan.image,
-                lapor_gangguan.aktif,
-                users.user_name
-                FROM lapor_gangguan
-                JOIN users ON users.id = lapor_gangguan.id_user 
-                where aktif=1");
 
                 $nomor = 1;
                 while ($lihat = $query->fetch_assoc()) {
