@@ -21,8 +21,9 @@ if (isset($_GET['tipe']) && $_GET['tipe'] != '') {
                 list_gangguan.keterangan,
                 list_gangguan.status,
                 list_gangguan.tanggal_gangguan,
-                device.type,
-                device.device as nama_device
+                list_gangguan.tiket,
+        device.device as nama_device,
+        device.type as tipe
                 from list_gangguan
                 JOIN device on device.id = list_gangguan.id_device
                 WHERE DATE(tanggal_gangguan) = CURDATE() and device.type = '$tipe'
@@ -33,8 +34,9 @@ if (isset($_GET['tipe']) && $_GET['tipe'] != '') {
                 list_gangguan.keterangan,
                 list_gangguan.status,
                 list_gangguan.tanggal_gangguan,
-                device.type,
-                device.device as nama_device
+                list_gangguan.tiket,
+        device.device as nama_device,
+        device.type as tipe
                 from list_gangguan
                 JOIN device on device.id = list_gangguan.id_device
                 WHERE DATE(tanggal_gangguan) = CURDATE()
@@ -58,7 +60,7 @@ if (isset($_GET['tipe']) && $_GET['tipe'] != '') {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-      <link rel="icon" type="image/png" href="assets/img/logo.png">
+    <link rel="icon" type="image/png" href="assets/img/logo.png">
     <title>Status List Gangguan</title>
 
     <style>
@@ -197,7 +199,8 @@ if (isset($_GET['tipe']) && $_GET['tipe'] != '') {
             <table id="tabelpelanggan" class="table table-bordered table-hover">
                 <thead>
                     <tr>
-                        <th data-th="No" style="text-align: center;">No</th>
+                        <th style="text-align: center;">No</th>
+                        <th data-th="Tiket">Tiket</th>
                         <th data-th="Nama Device">Nama Device</th>
                         <th data-th="Tipe">Tipe</th>
                         <th data-th="Keterangan">Keterangan</th>
@@ -218,17 +221,19 @@ if (isset($_GET['tipe']) && $_GET['tipe'] != '') {
                     $ket = $lihat['keterangan'];
                     $status = $lihat['status'];
                     $tggl_gangguan = $lihat['tanggal_gangguan'];
-                    $tipe = $lihat['type']
+                    $tipe = $lihat['tipe'];
+                    $tiket = $lihat['tiket'];
 
                 ?>
                     <tbody>
                         <tr>
-                            <td style="text-align: center;"><?php echo $nomor; ?></td>
-                            <td><?php echo htmlspecialchars($nm_device); ?></td>
-                            <td><?php echo ($tipe); ?></td>
-                            <td><?php echo htmlspecialchars($ket); ?></td>
+                            <td data-th="No" style="text-align: center;"><?php echo $nomor; ?></td>
+                            <td data-th="Tiket"><?php echo htmlspecialchars($tiket); ?></td>
+                            <td data-th="Nama Device"><?php echo htmlspecialchars($nm_device); ?></td>
+                            <td data-th="Tipe"><?php echo ($tipe); ?></td>
+                            <td data-th="Keterangan"><?php echo htmlspecialchars($ket); ?></td>
 
-                            <td width="10%" style="text-align: center;">
+                            <td data-th="Status" width="10%" style="text-align: center;">
                                 <?php if ($status == 'open') { ?>
                                     <button class="btn btn-success btn-md">Open</button>
                                 <?php } elseif ($status == 'pending') { ?>
@@ -238,7 +243,7 @@ if (isset($_GET['tipe']) && $_GET['tipe'] != '') {
                                 <?php } ?>
                             </td>
 
-                            <td><?php echo date('d-m-Y H:i:s', strtotime($tggl_gangguan)); ?></td>
+                            <td data-th="Tanggal Gangguan"><?php echo date('d-m-Y H:i:s', strtotime($tggl_gangguan)); ?></td>
 
                             <?php if ($_SESSION['account_type'] == 'teknisi') { ?>
                                 <td>

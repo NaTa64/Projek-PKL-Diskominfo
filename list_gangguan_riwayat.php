@@ -184,6 +184,7 @@ if (isset($_GET['date']) && $_GET['date'] != '' && isset($_GET['tipe']) && $_GET
                 <thead>
                     <tr>
                         <th style="text-align: center;">No</th>
+                        <th>Tiket</th>
                         <th>Nama Device</th>
                         <th>Tipe</th>
                         <th>Keterangan</th>
@@ -200,9 +201,11 @@ if (isset($_GET['date']) && $_GET['date'] != '' && isset($_GET['tipe']) && $_GET
                         $status = $lihat['status'];
                         $tggl_gangguan = $lihat['tanggal_gangguan'];
                         $tipe = $lihat['type'];
+                        $tiket = $lihat['tiket'];
                     ?>
                         <tr>
                             <td style="text-align: center;"><?php echo $nomor; ?></td>
+                            <td><?php echo htmlspecialchars($tiket); ?></td>
                             <td><?php echo htmlspecialchars($nm_device); ?></td>
                             <td><?php echo ($tipe); ?></td>
                             <td><?php echo htmlspecialchars($ket); ?></td>

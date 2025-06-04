@@ -206,7 +206,7 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item ms-5">
                         <a href="login.php">
-                            <button type="button" class="btn btn-light" style="color: #2691D9; font-weight: bold;">
+                            <button type="button" class="btn btn-primary">
                                 <i class="fas fa-sign-in-alt"></i> Login
                             </button>
                         </a>
@@ -218,7 +218,7 @@
 
     <!-- Content Section -->
     <div class="content-section">
-        <h1 class="fw-bolder mb-4">TENTANG KAMI</h1>
+        <h1 class="fw-bolder mb-4">ABOUT</h1>
 
         <!-- Wrapper for text content with background -->
         <div class="row align-items-center">

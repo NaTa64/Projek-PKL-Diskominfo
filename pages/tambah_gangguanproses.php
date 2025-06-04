@@ -14,7 +14,7 @@ if (isset($_POST['tambah'])) {
     $device = $row['device'];
 
     // tiket
-    $tiket = substr(strtoupper(uniqid()), 0, 5);
+    $tiket = substr(strtoupper(uniqid()), 0, 5) . substr(hash('sha256', uniqid()), 0, 5);
     
     // $query = $conn->query("INSERT INTO list_gangguan (id_device, keterangan, status, tanggal_gangguan) VALUES ($id_device, '$keterangan', '$status', NOW())");
     $query = $conn->query("INSERT INTO list_gangguan (id_device, keterangan, tanggal_gangguan,tiket) VALUES ($id_device, '$keterangan', NOW(),'$tiket')");
