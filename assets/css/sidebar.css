@@ -71,11 +71,19 @@
 }
 
 .card-info .value {
-  font-size: 36px;
+  font-size: 30px;
   font-weight: bold;
   color: #28a745;
   /* Warna hijau untuk nilai */
   margin-top: 10px;
+}
+
+.card-info .value-status {
+  font-size: 30px;
+  font-weight: bold;
+  color: #28a745;
+  /* Warna hijau untuk nilai */
+  margin-top: -20px;
 }
 
 .card-info .icon {

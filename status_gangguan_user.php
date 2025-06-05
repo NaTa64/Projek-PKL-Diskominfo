@@ -45,7 +45,7 @@ if (isset($_GET['date']) && $_GET['date'] != '') {
                 users.user_name
                 FROM lapor_gangguan
                 JOIN users ON users.id = lapor_gangguan.id_user 
-                where aktif=1 order by status desc");
+                order by status desc");
 }
 
 ?>
@@ -210,7 +210,7 @@ if (isset($_GET['date']) && $_GET['date'] != '') {
                     </form>
                 </div>
             </div>
-            <!-- Filter Data -->
+            <!--END Filter Data -->
 
             <table id="tabel" class="table table-bordered table-hover">
                 <thead>

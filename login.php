@@ -29,7 +29,7 @@ require("koneksi/koneksi.php");
             <img src="assets/img/authentication.svg" alt="" class="form__img">
 
             <form action="proseslogin.php" class="form__content" method="post">
-                <h1 class="form__title">Welcome</h1>
+                <h1 class="form__title">Silahkan Login!</h1>
 
                 <div class="form__div form__div-one">
                     <div class="form__icon">

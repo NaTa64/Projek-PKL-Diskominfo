@@ -26,7 +26,7 @@ if (!isset($_SESSION['id']) || (isset($_SESSION['id']) && $_SESSION['account_typ
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-      <link rel="icon" type="image/png" href="assets/img/logo.png">
+    <link rel="icon" type="image/png" href="assets/img/logo.png">
 
     <title>Dashboard</title>
 </head>
@@ -53,6 +53,22 @@ if (!isset($_SESSION['id']) || (isset($_SESSION['id']) && $_SESSION['account_typ
                 <hr>
                 <div class="row">
 
+                    <!-- <div class="col-md-4">
+                        <a href="status.php" class="card-link">
+                            <div class="card-info">
+                                <i class="fas fa-box-open icon"></i>
+                                <h4>Lapor Gangguan</h4>
+                                <div class="value">
+                                    <?php
+                                    $query_user = $conn->query("SELECT count(id_laporan) as user from lapor_gangguan WHERE id_user='" . $_SESSION['id'] . "'");
+                                    $data_user = $query_user->fetch_assoc();
+                                    echo $data_user['user'];
+                                    ?>
+                                </div>
+                            </div>
+                        </a>
+                    </div> -->
+
                     <div class="col-md-4">
                         <a href="status.php" class="card-link">
                             <div class="card-info">
@@ -60,7 +76,80 @@ if (!isset($_SESSION['id']) || (isset($_SESSION['id']) && $_SESSION['account_typ
                                 <h4>Status Laporan</h4>
                                 <div class="value">
                                     <?php
-                                    $query_user = $conn->query("SELECT count(id_laporan) as user from lapor_gangguan WHERE id_user='".$_SESSION['id']."'");
+                                    $query_user = $conn->query("SELECT count(id_laporan) as user from lapor_gangguan WHERE id_user='" . $_SESSION['id'] . "' and aktif=1");
+                                    $data_user = $query_user->fetch_assoc();
+                                    echo $data_user['user'];
+                                    ?>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Progress Laporan -->
+                    <?php
+                    $no=1;
+                    $query_user = $conn->query("SELECT * FROM lapor_gangguan WHERE id_user='" . $_SESSION['id'] . "' and aktif=1 ORDER BY id_laporan DESC");
+                    while ($data_user = $query_user->fetch_assoc()) {
+                    ?>
+                        <div class="col-md-4">
+                            <a href="status.php" class="card-link">
+                                <div class="card-info">
+                                    <i class="fas fa-box-open icon"></i>
+                                    <h4>Progress Laporan <?php echo $no; ?></h4>
+                                    <p style="font-size: small; margin-bottom: 0px;">
+                                        <?php
+                                        if (!empty($data_user['tanggal_gangguan'])) {
+                                            echo 'Tanggal: ' . date('d-m-Y', strtotime($data_user['tanggal_gangguan']));
+                                        } elseif (!empty($data_user['tanggal_selesai'])) {
+                                            echo 'Tanggal: ' . date('d-m-Y', strtotime($data_user['tanggal_selesai']));
+                                        }
+                                        ?>
+                                    </p>
+                                    <p style="font-size: small;">
+                                        <?php
+                                        if (!empty($data_user['keterangan'])) {
+                                            echo 'Keterangan: ' . $data_user['keterangan'];
+                                        } else {
+                                            echo 'Keterangan: Tidak ada keterangan';
+                                        }
+                                        ?>
+                                    </p>
+                                    <div class="value-status">
+                                        <?php
+                                        if ($data_user['status'] == 'open') {
+                                            echo 'Sedang diproses';
+                                        } elseif ($data_user['status'] == 'pending') {
+                                            echo 'Tertunda';
+                                        } else {
+                                            echo 'Selesai';
+                                        }
+                                        ?>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <?php $no++; ?>
+                    <?php
+                    }
+                    ?>
+                    <!--END Progress Laporan -->
+                </div>
+            </div>
+
+            <!-- <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <div class="panel-body">
+                <h2 class="text-center">Progress</h2>
+                <hr>
+                <div class="row">
+
+                    <div class="col-md-4">
+                        <a href="status.php" class="card-link">
+                            <div class="card-info">
+                                <i class="fas fa-box-open icon"></i>
+                                <h4>Status Laporan</h4>
+                                <div class="value">
+                                    <?php
+                                    $query_user = $conn->query("SELECT count(id_laporan) as user from lapor_gangguan WHERE id_user='" . $_SESSION['id'] . "'");
                                     $data_user = $query_user->fetch_assoc();
                                     echo $data_user['user'];
                                     ?>
@@ -71,8 +160,9 @@ if (!isset($_SESSION['id']) || (isset($_SESSION['id']) && $_SESSION['account_typ
 
                 </div>
             </div>
+        </div> -->
+
         </div>
-    </div>
 
 </body>
 

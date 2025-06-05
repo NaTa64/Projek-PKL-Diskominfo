@@ -8,6 +8,34 @@ if (!isset($_SESSION['id']) || (isset($_SESSION['id']) && $_SESSION['account_typ
     header('Location: ../../logout.php');
     exit;
 }
+
+function validate($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
+if (isset($_GET['date']) && $_GET['date'] != '' && isset($_GET['status']) && $_GET['status'] != '') {
+    $date = validate($_GET['date']);
+    $status = validate($_GET['status']);
+     $query = $conn->query("SELECT * FROM lapor_gangguan
+    JOIN users ON users.id = lapor_gangguan.id_user and date(tanggal_gangguan) = '$date' and status='$status' WHERE lapor_gangguan.aktif=1 AND lapor_gangguan.id_user = '" . $_SESSION['id'] . "' order by tanggal_gangguan desc");
+} elseif (isset($_GET['date']) && $_GET['date'] != '') {
+    $date = validate($_GET['date']);
+    $query = $conn->query("SELECT * FROM lapor_gangguan
+    JOIN users ON users.id = lapor_gangguan.id_user and date(tanggal_gangguan) = '$date' WHERE lapor_gangguan.aktif=1 AND lapor_gangguan.id_user = '" . $_SESSION['id'] . "' order by tanggal_gangguan desc");
+} elseif (isset($_GET['status']) && $_GET['status'] != '') {
+    $status = validate($_GET['status']);
+    $query = $conn->query("SELECT * FROM lapor_gangguan
+    JOIN users ON users.id = lapor_gangguan.id_user and status = '$status' WHERE lapor_gangguan.aktif=1 AND lapor_gangguan.id_user = '" . $_SESSION['id'] . "' order by tanggal_gangguan desc");
+} else {
+    $query = $conn->query("SELECT * FROM lapor_gangguan
+    JOIN users ON users.id = lapor_gangguan.id_user WHERE lapor_gangguan.aktif=1 AND lapor_gangguan.id_user = '" . $_SESSION['id'] . "' order by tanggal_gangguan desc");
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -23,7 +51,7 @@ if (!isset($_SESSION['id']) || (isset($_SESSION['id']) && $_SESSION['account_typ
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-      <link rel="icon" type="image/png" href="assets/img/logo.png">
+    <link rel="icon" type="image/png" href="assets/img/logo.png">
     <title>User</title>
 </head>
 
@@ -41,7 +69,34 @@ if (!isset($_SESSION['id']) || (isset($_SESSION['id']) && $_SESSION['account_typ
     <div class="content">
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <h2 class="page-header">Status Gangguan</h2>
+
             <hr>
+
+            <!-- Filter Data -->
+            <div class="row mb-2">
+                <div class="col-md-12 d-flex justify-content-end">
+                    <form action="" method="get" class="d-flex align-items-center gap-2">
+                        <!-- Input tanggal gangguan -->
+                        <input type="date" name="date" value="<?= isset($_GET['date']) == true ? $_GET['date'] : '' ?>" class="form-control">
+
+                        <!-- Input Tipe perangkat -->
+                        <select class="form-select" name="status">
+                            <option value="">Pilih status</option>
+                            <option value="open" <?= (isset($_GET['status']) && $_GET['status'] == 'open') ? 'selected' : '' ?>>Open</option>
+                            <option value="pending" <?= (isset($_GET['status']) && $_GET['status'] == 'pending') ? 'selected' : '' ?>>Pending</option>
+                            <option value="closed" <?= (isset($_GET['status']) && $_GET['status'] == 'closed') ? 'selected' : '' ?>>Closed</option>
+                        </select>
+
+                        <!-- Tombol Filter -->
+                        <button type="submit" class="btn btn-primary">Filter</button>
+
+
+                        <!-- Tombol Reset -->
+                        <a href="status.php" class="btn btn-danger">Reset</a>
+                    </form>
+                </div>
+            </div>
+            <!--END Filter Data -->
 
             <table id="tabelpelanggan" class="table table-bordered table-hover">
                 <thead>
@@ -56,9 +111,6 @@ if (!isset($_SESSION['id']) || (isset($_SESSION['id']) && $_SESSION['account_typ
                 </thead>
 
                 <?php
-                $query = $conn->query("SELECT * FROM lapor_gangguan
-                JOIN users ON users.id = lapor_gangguan.id_user WHERE lapor_gangguan.aktif=1 AND lapor_gangguan.id_user = '".$_SESSION['id']."'");
-
                 // pakai query ini jika hanya menampilkan laporan hanya hari ini
                 // $query = $conn->query("SELECT * FROM lapor_gangguan WHERE DATE(tanggal_gangguan) = CURDATE()");
 
@@ -85,11 +137,13 @@ if (!isset($_SESSION['id']) || (isset($_SESSION['id']) && $_SESSION['account_typ
                                 <?php } ?>
                             </td>
 
-                            <td style="text-align: center;">
-                                <?php if ($status == 'aktif') { ?>
-                                    <i class="fas fa-check" style="color: green;"></i>
+                            <td data-th="Status" width="10%" style="text-align: center;">
+                                <?php if ($status == 'open') { ?>
+                                    <button class="btn btn-success btn-md">Open</button>
+                                <?php } elseif ($status == 'pending') { ?>
+                                    <button class="btn btn-warning btn-md">Pending</button>
                                 <?php } else { ?>
-                                    <i class="fas fa-times" style="color: red;"></i>
+                                    <button class="btn btn-secondary btn-md">Closed</button>
                                 <?php } ?>
                             </td>
 
